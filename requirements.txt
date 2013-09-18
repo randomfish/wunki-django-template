@@ -1,8 +1,15 @@
 django-configurations==0.5.1
 django-debug-toolbar==0.9.4
 south==0.8.2
+django-extensions==1.2.1
 
-# Celery requirements
+# Compression
+slimit==0.8.1
+beautifulsoup<4.0
+lxml==3.2.1
+django_compressor==1.3
+
+# Celery
 pytz==2013b
 django-celery==3.0.23
 

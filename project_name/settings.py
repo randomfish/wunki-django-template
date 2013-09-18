@@ -50,8 +50,10 @@ class Development(Configuration):
 
         # Utility applications
         'configurations',
+        'django_extensions',
         'south',
         'debug_toolbar',
+        'compressor',
 
         # Celery
         'djcelery',
@@ -119,6 +121,14 @@ class Development(Configuration):
     djcelery.setup_loader()
     BROKER_URL = 'django://'
     CELERY_ALWAYS_EAGER = True
+
+    # Compression
+    COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.SlimItFilter']
+    COMPRESS_OUTPUT_DIR = "cache"
+
+    # We use the compression method of content because this works better when
+    # you have multiple application servers.
+    COMPRESS_CSS_HASHING_METHOD = 'content'
 
 class Production(Development):
     """

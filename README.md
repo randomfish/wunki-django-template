@@ -26,7 +26,7 @@ Sync and migrate:
     ./manage.py syncdb
     ./manage.py migrate
 
-Run the server and you can find your new project at: [http://localhost:8000]
+Run the server and you can find your new project at: http://localhost:8000
 
 ## Resources
 

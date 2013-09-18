@@ -52,7 +52,8 @@ Run the server and you can find your new project at:
 
 ## Resources
 
-TODO.
+We wrote a blog post on [Gibbon] about this setup called
+[What Every Django Project Needs].
 
 [South]: http://south.aeracode.org/
 [Celery]: http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html
@@ -64,3 +65,5 @@ TODO.
 [/404.html]: http://localhost:8000/404.html
 [/ping]: http://localhost:8000/ping
 [ELB]: http://aws.amazon.com/elasticloadbalancing/
+[Gibbon]: http://blog.gibbon.co
+[What Every Django Project Needs]: http://blog.gibbon.co/posts/2013-09-19-what-every-django-project-needs.html

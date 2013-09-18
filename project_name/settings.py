@@ -1,82 +1,136 @@
-"""
-Django settings for {{ project_name }} project.
+from configurations import Configuration, values, importer
 
-For more information on this file, see
-https://docs.djangoproject.com/en/{{ docs_version }}/topics/settings/
+import djcelery
 
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/
-"""
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# Importer needed for Celery
+importer.install()
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/{{ docs_version }}/howto/deployment/checklist/
+class Development(Configuration):
+    """
+    Django settings for {{ project_name }} project.
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '{{ secret_key }}'
+    """
+    # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+    BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+    ADMINS = (
+        ('Full name', 'admin@example.com'),
+    )
+    MANAGERS = ADMINS
 
-TEMPLATE_DEBUG = True
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = '{{ secret_key }}'
 
-ALLOWED_HOSTS = []
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = []
 
+    # Email
+    DEFAULT_FROM_EMAIL = "{{ project_name}} <hello@example.com>"
+    SERVER_EMAIL = "{{ project_name }} <errors@example.com>"
 
-# Application definition
+    # We use 1025 as the port because we can use the Python mail server for
+    # debugging. Run the following command an the command line:
+    #
+    #    python -m smtpd -n -c DebuggingServer 127.0.0.1:1025
+    #
+    EMAIL_PORT = 1025
 
-INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-)
+    # Application definition
+    INSTALLED_APPS = (
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
 
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+        # Utility applications
+        'configurations',
+        'south',
+        'debug_toolbar',
 
-ROOT_URLCONF = '{{ project_name }}.urls'
+        # Celery
+        'djcelery',
+        'kombu.transport.django',
+    )
 
-WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
+    MIDDLEWARE_CLASSES = (
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
 
+    ROOT_URLCONF = '{{ project_name }}.urls'
 
-# Database
-# https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
+    WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
 
-# Internationalization
-# https://docs.djangoproject.com/en/{{ docs_version }}/topics/i18n/
+    # Internationalization
+    # https://docs.djangoproject.com/en/{{ docs_version }}/topics/i18n/
+    LANGUAGE_CODE = 'en-us'
+    TIME_ZONE = 'UTC'
+    USE_I18N = True
+    USE_L10N = True
+    USE_TZ = True
 
-LANGUAGE_CODE = 'en-us'
+    # Locale translation files
+    LOCALE_PATHS = (
+        os.path.join(BASE_DIR, '../locale'),
+    )
 
-TIME_ZONE = 'UTC'
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/{{ docs_version }}/howto/static-files/
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, '../public/static')
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
 
-USE_I18N = True
+    # Media files
+    MEDIA_ROOT = os.path.join(BASE_DIR, '../public/media')
+    MEDIA_URL = '/media/'
 
-USE_L10N = True
+    # Templates
+    TEMPLATE_DIRS = (
+        os.path.join(BASE_DIR, 'templates'),
+    )
 
-USE_TZ = True
+    # Debug toolbar
+    INTERNAL_IPS = ('127.0.0.1',)
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+    }
+    
+    # Celery
+    djcelery.setup_loader()
+    BROKER_URL = 'django://'
+    CELERY_ALWAYS_EAGER = True
 
+class Production(Development):
+    """
+    Production settings.
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/{{ docs_version }}/howto/static-files/
+    """
+    DEBUG = False
+    TEMPLATE_DEBUG = DEBUG
 
-STATIC_URL = '/static/'
+    # Empty by design to trigger a warning to fill it with something sensible.
+    SECRET_KEY = values.SecretValue()
+
+    # Switch the Celery broker URL to RabbitMQ
+    BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+    CELERY_ALWAYS_EAGER = False

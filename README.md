@@ -15,3 +15,7 @@ The setup is working with a local PostgreSQL database.
 ## Usage
 
 TODO.
+
+## Resources
+
+

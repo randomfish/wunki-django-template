@@ -1,0 +1,8 @@
+django-configurations==0.5.1
+django-debug-toolbar==0.9.4
+south==0.8.2
+
+# Celery requirements
+pytz==2013b
+django-celery==3.0.23
+

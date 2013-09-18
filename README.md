@@ -14,23 +14,23 @@ contains the configuration and setup for the following packages:
 Besides that the above packages are setup with sensible defaults, you also get
 the following benefits by using this package:
 
-- In development you can surf to [/500.html] and [/404.html] to view your
-  404 and 500 templates.
+1. In development you can surf to [/500.html] and [/404.html] to view your
+   404 and 500 templates.
 
-- Static and media files are served correctly in development.
+2. Static and media files are served correctly in development.
 
-- You receive a *pong* when you visit the [/ping] page. This view can be used
-  in load balancer to see if your application is still up. Think [ELB]
+3. You receive a *pong* when you visit the [/ping] page. This view can be used
+   in load balancer to see if your application is still up. Think [ELB].
 
-- Celery runs on your development database while in development so you don't
-  have to setup RabbitMQ on your development machine.
+4. Celery runs on your development database while in development so you don't
+   have to setup RabbitMQ on your development machine.
 
-- Sensible directory layout. Your _media_ and _static_ files will be copied
-  into the `public` directory. They already contain a `.gitignore` because
-  those files should not be in Git.
+5. Sensible directory layout. Your _media_ and _static_ files will be copied
+   into the `public` directory. They already contain a `.gitignore` because
+   those files should not be in Git.
 
-- Email is setup for you. Error mails are sent with an actual sender and you
-  can debug on port 1025 with the Python `smptd` server.
+6. Email is setup for you. Error mails are sent with an actual sender and you
+   can debug on port 1025 with the Python `smptd` server.
 
 ## Usage
 

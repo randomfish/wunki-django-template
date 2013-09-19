@@ -1,5 +1,11 @@
 # Wunki's Django Template
 
+**Table of Contents**
+
+- [Wunki's Django Template](#wunki's-django-template)
+	- [Usage](#usage)
+	- [Author](#author)
+
 After doing a gazillion Django projects I saw some recurring patterns. This
 project template for Django is the template I use for new projects. It
 contains the configuration and setup for the following packages:
@@ -30,7 +36,7 @@ the following benefits by using this package:
    those files should not be in Git.
 
 6. Email is setup for you. Error mails are sent with an actual sender and you
-   can debug on port 1025 with the Python `smptd` server.
+   can debug on port `1025` with the Python `smptd` server.
 
 ## Usage
 
@@ -50,10 +56,11 @@ Sync and migrate:
 Run the server and you can find your new project at:
 [http://localhost:8000](http://localhost:8000).
 
-## Resources
+## Author
 
-We wrote a blog post on [Gibbon] about this setup called
-[What Every Django Project Needs].
+This is written by Petar Radosevic who used a similar template at [Gibbon]. If
+you like programming as much as he does, you should follow him on Twitter:
+[@wunki].
 
 [South]: http://south.aeracode.org/
 [Celery]: http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html
@@ -67,3 +74,5 @@ We wrote a blog post on [Gibbon] about this setup called
 [ELB]: http://aws.amazon.com/elasticloadbalancing/
 [Gibbon]: http://blog.gibbon.co
 [What Every Django Project Needs]: http://blog.gibbon.co/posts/2013-09-19-what-every-django-project-needs.html
+[Gibbon]: http://gibbon.co
+[@wunki]: https://twitter.com/wunki

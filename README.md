@@ -17,26 +17,25 @@ contains the configuration and setup for the following packages:
 - [Django Compressor]
 - [Django Configurations]
 
-Besides that the above packages are setup with sensible defaults, you also get
-the following benefits by using this package:
+By using this template, you get the following benefits out of the box:
 
 1. In development you can surf to [/500.html] and [/404.html] to view your
    404 and 500 templates.
 
-2. Static and media files are served correctly in development.
+2. Static and media files are served correctly in development and production.
 
 3. You receive a *pong* when you visit the [/ping] page. This view can be used
    in load balancer to see if your application is still up. Think [ELB].
 
-4. Celery runs on your development database while in development so you don't
-   have to setup RabbitMQ on your development machine.
+4. While developing, Celery runs on your development database. In production
+   it switches to RabbitMQ.
 
 5. Sensible directory layout. Your _media_ and _static_ files will be copied
    into the `public` directory. They already contain a `.gitignore` because
    those files should not be in Git.
 
-6. Email is setup for you. Error mails are sent with an actual sender and you
-   can debug on port `1025` with the Python `smptd` server.
+6. Email is setup for you, mails are sent with an actual sender and you can
+   debug on port `1025` with the Python `smptd` server.
 
 ## Usage
 
